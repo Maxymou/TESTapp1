@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    networks:
+      - dokploy-network
+    expose:
+      - "3000"   # <-- mets ici le port interne de ton app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app1.rule=Host(`app1.tondomaine.com`)"
+      - "traefik.http.routers.app1.entrypoints=web"
+      - "traefik.http.services.app1.loadbalancer.server.port=3000"
+
+networks:
+  dokploy-network:
+    external: true
